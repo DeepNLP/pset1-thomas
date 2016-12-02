@@ -28,9 +28,9 @@ def forward_backward_prop(data, labels, params, dimensions):
     ### YOUR CODE HERE: forward propagation
     N = data.shape[0]
 
-    a0 = np.dot(data,W1)+b1
+    a0 = np.dot(data, W1) + b1
     hidden = sigmoid(a0)
-    a1 = np.dot(hidden,W2)+b2
+    a1 = np.dot(hidden,W2) + b2
     output = softmax(a1)
     #cost = - np.sum(labels * np.log(output)) / N
     cost = - np.sum(np.log(np.sum(labels * output, axis=1))) / N
@@ -38,8 +38,8 @@ def forward_backward_prop(data, labels, params, dimensions):
     
     ### YOUR CODE HERE: backward propagation
     # grad = - labels * (1. - output)
-    grada1 = output - labels / N
-    gradW2 = np.dot(data.T, grada1)
+    grada1 = (output - labels) / N
+    gradW2 = np.dot(hidden.T, grada1)
     gradb2 = np.sum(grada1, axis=0)
 
     grada0 = np.dot(grada1,W2.T) * sigmoid_grad(hidden)
