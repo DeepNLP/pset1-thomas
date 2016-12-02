@@ -27,13 +27,13 @@ def softmax(x):
     	x = x.reshape(1, x.shape[0])
 
     # Substract the max for each row
-    max_x = np.amax(x,1)
-    x = x - max_x[:,np.newaxis]
+    max_x = np.amax(x,1, keepdims=True)
+    x = x - max_x
 
     # Get normalized proba
     x = np.exp(x)
-    norm_x = np.sum(x, 1)
-    x = x / norm_x[:,np.newaxis]
+    norm_x = np.sum(x, 1, keepdims=True)
+    x = x / norm_x
 
     ### END YOUR CODE
     

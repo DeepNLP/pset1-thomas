@@ -21,7 +21,7 @@ def sigmoid_grad(f):
     """
     
     ### YOUR CODE HERE
-    f = -f*(1. - f)
+    f = f * (1. - f)
     ### END YOUR CODE
     
     return f
