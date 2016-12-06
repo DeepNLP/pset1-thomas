@@ -35,6 +35,11 @@ def softmax(x):
     norm_x = np.sum(x, 1, keepdims=True)
     x = x / norm_x
 
+    # Set back to single row if input was one dimensionnal
+    #print "x shape: " + str(x.shape)
+    if x.shape[0] == 1:
+        x = x.flatten()
+
     ### END YOUR CODE
     
     return x

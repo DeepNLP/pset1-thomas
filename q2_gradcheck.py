@@ -25,9 +25,13 @@ def gradcheck_naive(f, x):
         ### YOUR CODE HERE:
         epsilon = np.zeros(x.shape)
         epsilon[ix] = h
+
+        random.setstate(rndstate)
         f1 = f(x + epsilon)
+
         random.setstate(rndstate)
         f2 = f(x - epsilon)
+        
         numgrad = (f1[0] - f2[0])/2/h
         ### END YOUR CODE
 
