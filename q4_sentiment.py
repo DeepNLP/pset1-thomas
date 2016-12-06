@@ -9,18 +9,18 @@ from q4_softmaxreg import softmaxRegression, getSentenceFeature, accuracy, softm
 # Try different regularizations and pick the best!
 # NOTE: fill in one more "your code here" below before running!
 REGULARIZATION = None   # Assign a list of floats in the block below
-### YOUR CODE HERE
-raise NotImplementedError
-### END YOUR CODE
+# YOUR CODE HERE
+REGULARIZATION = [1.000000E-08,9.000000E-05, 1.1000000E-04, 1.200000E-04]
+# END YOUR CODE
 
 # Load the dataset
 dataset = StanfordSentiment()
 tokens = dataset.tokens()
 nWords = len(tokens)
 
-# Load the word vectors we trained earlier 
+# Load the word vectors we trained earlier
 _, wordVectors0, _ = load_saved_params()
-wordVectors = (wordVectors0[:nWords,:] + wordVectors0[nWords:,:])
+wordVectors = (wordVectors0[:nWords, :] + wordVectors0[nWords:, :])
 dimVectors = wordVectors.shape[1]
 
 # Load the train set
@@ -47,11 +47,11 @@ for regularization in REGULARIZATION:
     random.seed(3141)
     np.random.seed(59265)
     weights = np.random.randn(dimVectors, 5)
-    print "Training for reg=%f" % regularization 
+    print "Training for reg=%f" % regularization
 
     # We will do batch optimization
-    weights = sgd(lambda weights: softmax_wrapper(trainFeatures, trainLabels, 
-        weights, regularization), weights, 3.0, 10000, PRINT_EVERY=100)
+    weights = sgd(lambda weights: softmax_wrapper(trainFeatures, trainLabels,
+                                                  weights, regularization), weights, 3.0, 10000, PRINT_EVERY=100)
 
     # Test on train set
     _, _, pred = softmaxRegression(trainFeatures, trainLabels, weights)
@@ -65,10 +65,10 @@ for regularization in REGULARIZATION:
 
     # Save the results and weights
     results.append({
-        "reg" : regularization, 
-        "weights" : weights, 
-        "train" : trainAccuracy, 
-        "dev" : devAccuracy})
+        "reg": regularization,
+        "weights": weights,
+        "train": trainAccuracy,
+        "dev": devAccuracy})
 
 # Print the accuracies
 print ""
@@ -76,8 +76,8 @@ print "=== Recap ==="
 print "Reg\t\tTrain\t\tDev"
 for result in results:
     print "%E\t%f\t%f" % (
-        result["reg"], 
-        result["train"], 
+        result["reg"],
+        result["train"],
         result["dev"])
 print ""
 
@@ -85,9 +85,12 @@ print ""
 BEST_REGULARIZATION = None
 BEST_WEIGHTS = None
 
-### YOUR CODE HERE 
-raise NotImplementedError
-### END YOUR CODE
+# YOUR CODE HERE
+dev_results = np.array([result["dev"] for result in results])
+best_result_index = np.argmax(dev_results)
+BEST_WEIGHTS = results[best_result_index]["weights"]
+BEST_REGULARIZATION = results[best_result_index]["reg"]
+# END YOUR CODE
 
 # Test your findings on the test set
 testset = dataset.getTestSentences()
@@ -111,4 +114,3 @@ plt.ylabel("accuracy")
 plt.legend(['train', 'dev'], loc='upper left')
 plt.savefig("q4_reg_v_acc.png")
 plt.show()
-

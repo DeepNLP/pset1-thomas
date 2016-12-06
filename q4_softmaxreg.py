@@ -61,7 +61,7 @@ def softmaxRegression(features, labels, weights, regularization = 0.0, nopredict
     grad = regularization * weights
     for n in range(N):
     	grad += np.outer(features[n], prob[n]) / N
-    	grad[range(D), labels] -= features[n][range(D)] / N
+    	grad[:, labels[n]] -= features[n] / N
 
     pred = np.argmax(prob, axis=1)
     ### END YOUR CODE
